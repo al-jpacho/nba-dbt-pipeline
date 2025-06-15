@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: players
+    description: Raw player metadata pulled from commonallplayers.
+    columns:
+      - name: person_id
+        description: Unique player identifier.
+      - name: display_first_last
+        description: Full player name.
+      - name: is_active
+        description: Whether the player is active this season.
+
+  - name: player_stats
+    description: Raw player performance stats pulled from leaguedashplayerstats.
+    columns:
+      - name: player_id
+        description: Unique player ID.
+      - name: player_name
+        description: Player name.
+      - name: pts
+        description: Points per game.
