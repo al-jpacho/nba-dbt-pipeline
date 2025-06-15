@@ -1,0 +1,1 @@
+select * from raw.player_stats
