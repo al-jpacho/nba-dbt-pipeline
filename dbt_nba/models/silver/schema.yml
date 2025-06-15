@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: players_cleaned
+    description: >
+      Cleaned and structured player metadata from the bronze layer. 
+      Includes standardised naming, typing, and selected useful fields.
+    columns:
+      - name: player_id
+        description: Unique identifier for each NBA player.
+        tests:
+          - not_null
+          - unique
+      - name: full_name
+        description: Full name of the player.
+      - name: is_active
+        description: Boolean flag indicating whether the player is active this season.
+      - name: career_start_year
+        description: First year the player appeared in the NBA.
+      - name: career_end_year
+        description: Most recent year the player appeared in the NBA.
+      - name: team_name
+        description: Name of the player's most recent team.
+      - name: team_city
+        description: City of the player's most recent team.
+      - name: team_id
+        description: ID of the team the player most recently played for.
