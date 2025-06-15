@@ -6,6 +6,7 @@ with source_data as (
 select
     PLAYER_ID::int as player_id,
     PLAYER_NAME as player_name,
+    TEAM_ID as team_id,
     TEAM_ABBREVIATION as team_abbreviation,
     PTS::float as points_per_game,
     AST::float as assists_per_game,
