@@ -9,7 +9,7 @@ select
     IS_ACTIVE::boolean as is_active,
     FROM_YEAR::int as career_start_year,
     TO_YEAR::int as career_end_year,
-    TEAM_ID::int as team_id
+    TEAM_ID::int as team_id,
     TEAM_NAME as team_name,
     TEAM_CITY as team_city,
 from source_data
