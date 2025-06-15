@@ -4,12 +4,12 @@ with source_data as (
 )
 
 select
-    person_id::int as player_id,
-    display_first_last as full_name,
-    is_active::boolean as is_active,
-    from_year::int as career_start_year,
-    to_year::int as career_end_year,
-    team_name as team_name,
-    team_city as team_city,
-    team_id::int as team_id
+    PERSON_ID::int as player_id,
+    DISPLAY_FIRST_LAST as full_name,
+    IS_ACTIVE::boolean as is_active,
+    FROM_YEAR::int as career_start_year,
+    TO_YEAR::int as career_end_year,
+    TEAM_ID::int as team_id
+    TEAM_NAME as team_name,
+    TEAM_CITY as team_city,
 from source_data
