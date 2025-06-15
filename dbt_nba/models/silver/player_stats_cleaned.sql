@@ -14,7 +14,6 @@ select
     FG_PCT::float as field_goal_percentage,
     PLUS_MINUS::float as plus_minus_score,
     GP::int as games_played,
-    MIN::float as minutes_per_game,
-    SEASON
+    MIN::float as minutes_per_game
 from source_data
 where GP > 0
