@@ -25,3 +25,33 @@ models:
         description: City of the player's most recent team.
       - name: team_id
         description: ID of the team the player most recently played for.
+
+  - name: player_stats_cleaned
+    description: >
+      Cleaned and typed per-game player stats from the bronze layer, filtered to include 
+      only players who have played at least one game.
+    columns:
+      - name: player_id
+        description: Foreign key to the player dimension table.
+        tests:
+          - not_null
+      - name: player_name
+        description: Name of the player (as given in raw stats).
+      - name: team_abbreviation
+        description: Team abbreviation the player played for.
+      - name: points_per_game
+        description: Average points scored per game.
+      - name: assists_per_game
+        description: Average assists per game.
+      - name: rebounds_per_game
+        description: Average rebounds per game.
+      - name: field_goal_percentage
+        description: Field goal shooting percentage.
+      - name: plus_minus_score
+        description: Net team point differential while player is on court.
+      - name: games_played
+        description: Total number of games played.
+      - name: minutes_per_game
+        description: Average minutes played per game.
+      - name: season
+        description: NBA season (e.g. 2023-24).
