@@ -4,16 +4,16 @@ with source_data as (
 )
 
 select
-    player_id::int,
-    player_name,
-    team_abbreviation,
-    pts::float as points_per_game,
-    ast::float as assists_per_game,
-    reb::float as  rebounds_per_game,
-    fg_pct::float field_goal_percentage,
-    plus_minus::float as plus_minus_score,
-    gp::int as games_played,
-    min::float as minutes_per_game,
-    season
+    PLAYER_ID::int as player_id,
+    PLAYER_NAME as player_name,
+    TEAM_ABBREVIATION as team_abbreviation,
+    PTS::float as points_per_game,
+    AST::float as assists_per_game,
+    REB::float as rebounds_per_game,
+    FG_PCT::float as field_goal_percentage,
+    PLUS_MINUS::float as plus_minus_score,
+    GP::int as games_played,
+    MIN::float as minutes_per_game,
+    SEASON
 from source_data
-where gp > 0
+where GP > 0
