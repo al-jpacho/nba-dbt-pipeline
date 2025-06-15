@@ -6,7 +6,7 @@ with source_data as (
 select
     PERSON_ID::int as player_id,
     DISPLAY_FIRST_LAST as full_name,
-    IS_ACTIVE::boolean as is_active,
+    case when ROSTERSTATUS = 1 then true else false end as is_active,
     FROM_YEAR::int as career_start_year,
     TO_YEAR::int as career_end_year,
     TEAM_ID::int as team_id,
