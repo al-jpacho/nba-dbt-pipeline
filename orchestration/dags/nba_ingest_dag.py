@@ -20,5 +20,5 @@ with DAG(
     
     ingest_nba_data = BashOperator(
         task_id="run_ingest_script",
-        bash_commaned="python /opt/airflow/dags/../../scripts/ingest_nba_data.up"
+        bash_command="python /opt/airflow/dags/../../scripts/ingest_nba_data.py"
     )
