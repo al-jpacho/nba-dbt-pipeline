@@ -12,7 +12,8 @@ def fetch_player_metadata() -> pd.DataFrame:
         pd.DataFrame: DataFrame containing metadata for all players.
     """
     player_data = commonallplayers.CommonAllPlayers(is_only_current_season=0)
-    return pd.DataFrame(player_data)
+    df_player_data = player_data.get_data_frames()[0]
+    return pd.DataFrame(df_player_data)
 
 
 def fetch_player_stats(season: str = "2024-25") -> pd.DataFrame:
