@@ -12,7 +12,8 @@ def fetch_player_metadata() -> pd.DataFrame:
         pd.DataFrame: DataFrame containing metadata for all players.
     """
     player_data = commonallplayers.CommonAllPlayers(is_only_current_season=0)
-    return pd.DataFrame(player_data)
+    df_player_data = player_data.get_data_frames()[0]
+    return pd.DataFrame(df_player_data)
 
 
 def fetch_player_stats(season: str = "2024-25") -> pd.DataFrame:
@@ -33,7 +34,7 @@ def fetch_player_stats(season: str = "2024-25") -> pd.DataFrame:
 def load_to_duckdb(
     df_players: pd.DataFrame,
     df_player_stats: pd.DataFrame,
-    db_path: str = "../duckdb/nba.duckdb",
+    db_path: str = "/opt/airflow/duckdb/nba.duckdb",
 ):
     """
     Load player metadata and stats into DuckDB under the raw schema.
