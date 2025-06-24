@@ -20,6 +20,41 @@ This project:
 ## Architecture
 
 ```
+                        ┌────────────────────────────┐
+                        │      Apache Airflow        │
+                        │ (orchestrated via Docker)  │
+                        └────────────┬───────────────┘
+                                     │
+                          Trigger DAG Task
+                                     │
+                          ┌──────────▼──────────┐
+                          │ BashOperator runs   │
+                          │ ingest_nba_data.py  │
+                          └──────────┬──────────┘
+                                     │
+                   ┌────────────────▼─────────────────┐
+                   │   Python Script (ingest_nba_data) │
+                   │   - Pulls data via nba_api        │
+                   │   - Creates raw DuckDB tables     │
+                   └────────────────┬─────────────────┘
+                                     │
+                          ┌──────────▼─────────┐
+                          │     DuckDB (.db)   │
+                          │   raw.players,     │
+                          │   raw.player_stats │
+                          └──────────┬─────────┘
+                                     │
+                          ┌──────────▼──────────┐
+                          │       dbt (local)   │
+                          │  - models transform │
+                          │    raw → bronze     │
+                          │    bronze → silver  │
+                          │    silver → gold    │
+                          └─────────────────────┘
+```
+
+
+```
               ┌────────────┐
               │  API Data  │  ← nba_api
               └─────┬──────┘
@@ -44,19 +79,22 @@ This project:
 
 ## Tools Used
 
-| Tool      | Purpose                                |
-| --------- | -------------------------------------- |
-| `nba_api` | Pulls real-time NBA player data        |
-| `DuckDB`  | Local OLAP database engine             |
-| `dbt`     | Transformation, testing, documentation |
-| `pandas`  | Preprocessing in Python                |
-| `Jupyter` | Interactive notebook environment       |
+| Tool        | Purpose                                                        |
+|-------------|----------------------------------------------------------------|
+| `nba_api`   | Pulls real-time NBA player data                                |
+| `DuckDB`    | Local OLAP database engine                                     |
+| `dbt`       | Transformation, testing, documentation                         |
+| `pandas`    | Preprocessing in Python                                        |
+| `Jupyter`   | Interactive notebook environment                               |
+| `Airflow`   | Workflow orchestration and scheduling for ingestion pipelines  |
+| `Docker`    | Containerisation for reproducible Airflow environment setup    |
 
 ---
 
 ## Features
 
-* Automated ingestion of NBA player and stat data
+* Automated ingestion of NBA player and stat data using Airflow
+* Containerised Airflow setup with Docker Compose
 * Modular dbt models aligned to medallion architecture
 * Data cleaning, typing, and enrichment in Silver models
 * Gold model output ranking top scorers
@@ -66,6 +104,8 @@ This project:
 ---
 
 ## Directory Structure
+
+
 
 ```
 nba-dbt-pipeline/
@@ -78,6 +118,11 @@ nba-dbt-pipeline/
 │   └── nba_pipeline.ipynb
 ├── scripts/                  # Data ingestion scripts
 │   └── ingest_raw_data.py
+├── orchestration/            # Airflow + Docker setup for scheduling
+│   ├── dags/
+│   │   └── nba_ingest_dag.py
+│   ├── docker-compose.yaml
+│   └── .env
 ├── dbt_project.yml
 ├── README.md
 └── requirements.txt
@@ -128,6 +173,27 @@ dbt run
 ```bash
 jupyter notebook notebooks/nba_pipeline_dev.ipynb
 ```
+
+---
+
+## Airflow Orchestration
+
+Airflow is used to orchestrate and schedule the ingestion of raw NBA data into DuckDB.
+
+### Setup
+We use a Dockerised setup to keep the environment consistent and easy to spin up.
+
+1. Navigate to the `orchestration/` directory.
+2. Run `docker compose up --build` to start the containers.
+3. Access the Airflow UI at `http://localhost:8080`.
+4. The DAG `nba_data_ingestion` is configured to run the raw data ingestion script using the `BashOperator`.
+
+### DAG Workflow
+The DAG runs a single task that executes the `ingest_nba_data.py` script inside the container. This script:
+- Pulls player metadata and stats using `nba_api`.
+- Stores the raw data as DuckDB tables in the mounted `duckdb/` directory.
+
+Ensure the `scripts/` and `duckdb/` directories are correctly mounted in your `docker-compose.yaml`.
 
 ---
 
