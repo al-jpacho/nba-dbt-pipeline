@@ -34,7 +34,7 @@ def fetch_player_stats(season: str = "2024-25") -> pd.DataFrame:
 def load_to_duckdb(
     df_players: pd.DataFrame,
     df_player_stats: pd.DataFrame,
-    db_path: str = "../duckdb/nba.duckdb",
+    db_path: str = "/opt/airflow/duckdb/nba.duckdb",
 ):
     """
     Load player metadata and stats into DuckDB under the raw schema.
