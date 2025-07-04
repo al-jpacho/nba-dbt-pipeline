@@ -195,6 +195,7 @@ cython_debug/
 
 # duckdb
 /duckdb
+.duckb
 
 # dbt
 .user.yml
